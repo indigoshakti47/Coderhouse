@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>Functional component</p>
+
+    <script>
+      const nombre = "";
+      const apellido = "";
+      const libros = [{
+        autor: "James Clear",
+        nombre: "Atomic habits",
+      } , {
+        autor: "Yuval Noah Harari",
+        nombre: "Sapiens",
+      } , {
+        autor: "Danko",
+        nombre: "The millionaire next door",
+      } , {
+        autor: "Jason Barron",
+        nombre: "The visual MBA",
+      } , {
+        autor: "Tom Rath",
+        nombre: "It's not about you'",
+      }
+    ];
+      const mascotas = [
+        "Lucky the dog",
+        "Winter the dolphin",
+        "Rex the dinosaur",
+        "Kat the cat"
+      ];
+
+      function Usuario(nombre, apellido, libros, mascotas) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.libros = libros;
+        this.mascotas = mascotas;
+      }
+      Usuario.prototype = {
+        constructor: Usuario,
+        getFullName() {
+          return `${this.nombre} ${this.apellido}`;
+          console.log(`${this.nombre} ${this.apellido}`);
+        },
+        addMascota() {
+          let agregar = prompt("Qué mascota desea agregar al arreglo");
+          mascotas.push(agregar);
+        },
+        getMascotas() {
+          return `Tienes: ${this.mascotas}, lo que signigica que actualmente hay ${this.mascotas.length} mascotas!`
+          console.log(`Tienes: ${this.mascotas}`); 
+          console.log(
+            `Lo que signigica que actualmente hay ${this.mascotas.length} mascotas!`
+          );
+        },
+        addBook() {
+          let nombre = prompt("Cuál es el nombre del libro que deseas agregar?");
+          let autor = prompt(
+            "Cuál es el nombre del autor de ese libro?"
+          );
+          let libro = {autor, nombre}
+          this.libros.push(libro)
+
+        },
+        getBooks() {
+          let nombreLibros = [];
+          for(libro in this.libros) {
+            nombreLibros.push(this.libros[libro].nombre)
+          }
+          return nombreLibros;
+          console.log(nombreLibros);
+        },
+      };
+
+      let usuario = new Usuario('Nathalia', 'Avila', libros, mascotas);
+      console.log(usuario.getFullName());
+      usuario.addMascota();
+      console.log(usuario.getMascotas());
+      usuario.addBook();
+      console.log(usuario.getBooks());
+
+    </script>
+  </body>
+</html>
