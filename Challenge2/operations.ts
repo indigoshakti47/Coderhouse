@@ -1,31 +1,29 @@
 interface Calculator {
-    result(): Promise<any>;
+    resultado(): Promise<any>;
 }
-
-export class Suma implements Calculator {
-    private readonly numA: number;
-    private readonly numB: number;
-
-    constructor(numA: number, numB: number) {
-        this.numA = numA;
-        this.numB = numB
-    }
-
-    public async result(): Promise<number> {
-        return this.numA + this.numB;
-    }
-}
-
 export class Resta implements Calculator{
-    private readonly numA: number;
-    private readonly numB: number;
+    private readonly number1: number;
+    private readonly number2: number;
 
-    constructor(numA: number, numB: number) {
-        this.numA = numA;
-        this.numB = numB
+    constructor(number1: number, number2: number) {
+        this.number1 = number1;
+        this.number2 = number2
     }
 
-    public async result(): Promise<number> {
-        return this.numA - this.numB;
+    public async resultado(): Promise<number> {
+        return this.number1 - this.number2;
+    }
+}
+export class Suma implements Calculator {
+    private readonly number1: number;
+    private readonly number2: number;
+
+    constructor(number1: number, number2: number) {
+        this.number1 = number1;
+        this.number2 = number2
+    }
+
+    public async resultado(): Promise<number> {
+        return this.number1 + this.number2;
     }
 }
