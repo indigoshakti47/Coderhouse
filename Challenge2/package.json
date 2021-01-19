@@ -1,0 +1,12 @@
+{
+  "name": "challenge2_nathalia_avila",
+  "version": "1.0.0",
+  "description": "Coderhouse - Challenge 2",
+  "main": "TS+AvilaNathalia.js",
+  "scripts": {
+    "start": "tsc && node dist/TS+AvilaNathalia.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nathalia Avila",
+  "license": "ISC"
+}
