@@ -1,0 +1,17 @@
+{
+  "name": "challenge5",
+  "version": "1.0.0",
+  "description": "Coderhouse",
+  "main": "Server_AvilaNathalia.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon Server_AvilaNathalia.js",
+    "start": "node Server_AvilaNathalia.js"
+  },
+  "author": "Nathalia Avila",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
