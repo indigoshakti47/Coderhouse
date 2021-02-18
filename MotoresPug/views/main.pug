@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(charset='utf-8')
+    title= title
+    
+  body
+    if empty
+      h2= 'No hay productos'
+    else 
+      table.table
+        thead.thead-dark
+          tr
+              th id
+              th title
+              th price
+              th thumbnail
+        tbody
+          each product in data
+            tr
+              td=product.id
+              td=product.title
+              td=product.price
+              td
+                img(src= product.thumbnail, height = '40px')
+ 
+   
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
