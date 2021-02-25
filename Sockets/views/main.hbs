@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>vista de productos</title>
+</head>
+
+<body>
+  <h2>Vista de productos</h2>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Price</th>
+        <th scope="col">Thumbnail</th>
+      </tr>
+    </thead>
+    <tbody id="rows">
+      {{#if empty}}
+      <h1 id="noProducts">No hay productos para cargar</h1>
+      {{else}}
+        {{#each data}}
+        <tr>
+          <th scope="row">{{this.id}}</th>
+          <td>{{this.title}}</td>
+          <td>{{this.price}}</td>
+          <td><img src={{this.thumbnail}} alt="image_" height="40px"></td>
+        </tr>
+        {{/each}}
+      {{/if}}
+    </tbody>
+  </table>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    const socket = io();
+    
+    socket.on("productadded", function(message){
+      console.log(message)
+      let newRow = document.createElement("tr")
+      let id = document.createElement("th")
+      let title = document.createElement("td")
+      let price = document.createElement("td")
+      let thumbnail = document.createElement("td")
+
+      id.scope = "row"
+      id.innerHTML = message.id
+      title.innerHTML = message.title
+      price.innerHTML = message.price
+      thumbnail.innerHTML = `<img src=${message.thumbnail} alt="image_" height="40px">`
+
+      newRow.append(id, title, price, thumbnail);
+      document.getElementById("rows").appendChild(newRow);
+
+      let noProducts = document.getElementById("noProducts");
+      noProducts.innerText  = ""
+    })
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
