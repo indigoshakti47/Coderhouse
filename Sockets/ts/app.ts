@@ -4,6 +4,7 @@ import path from "path";
 
 import {router as productRoutes, producto} from "./routes/productRoutes"
 import viewRoutes from "./routes/viewRoutes"
+import { ArchivoGuardar } from "./Archivo";
 
 const app: Application = express();
 
@@ -12,11 +13,20 @@ const http = require("http").Server(app);
 let io = require("socket.io")(http);
 
 io.on("connection", function(socket: any) {
-  console.log("a user connected");
+  //Productos
   socket.on("product", function(product: any) {
     producto.guardar(producto.recuperarCantidad(), product.title, product.price, product.thumbnail)
     io.emit("productadded", producto.recuperarUno(producto.recuperarCantidad()-1))
   });
+  //Chat
+  socket.on('chat:message', async (data: any) => {
+    console.log(data)
+    const ArchivoHandler: ArchivoGuardar = new ArchivoGuardar(data.email, data.date, data.message);
+
+    await ArchivoHandler.guardar()
+    
+    io.emit('chat:message', data)
+  })
 });
 
 //API setup
@@ -25,7 +35,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, './../public')))
 
 app.use('/api', productRoutes)
-app.use('/productos', viewRoutes)
+app.use(viewRoutes)
 
 
 app.engine("hbs", handlebars({

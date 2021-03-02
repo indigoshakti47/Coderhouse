@@ -11,6 +11,10 @@
   },
   "author": "Nathalia Avila",
   "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
