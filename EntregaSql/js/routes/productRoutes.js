@@ -32,6 +32,7 @@ router.get('/listar/:id?', (req, res) => __awaiter(void 0, void 0, void 0, funct
 }));
 router.post('/agregar', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.body);
         const { nombre, descripcion, codigo, foto, precio, stock } = req.body;
         res.send(yield producto.guardar(nombre, descripcion, codigo, foto, precio, stock));
     }

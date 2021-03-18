@@ -22,6 +22,9 @@ const chatRoutes_1 = require("./routes/chatRoutes");
 const product_repository_1 = require("./repository/product.repository");
 const chat_repository_1 = require("./repository/chat.repository");
 const app = express_1.default();
+app.use(express_1.default.static(path_1.default.join(__dirname, './../public/build')));
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use(cors_1.default());
 //Socket configuration setup
 const http = require("http").Server(app);
@@ -39,9 +42,6 @@ io.on("connection", function (socket) {
 app.use('/api/productos', productRoutes_1.router);
 app.use('/api/carrito', carritoRoutes_1.router);
 app.use(chatRoutes_1.router);
-app.use(express_1.default.static(path_1.default.join(__dirname, './../public/build')));
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
 const port = parseInt(process.env.PORT) || 8080;
 //Crea la tabla productos si no existe
 new product_repository_1.ProductoRepository().crearTabla();
