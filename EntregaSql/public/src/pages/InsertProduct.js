@@ -19,6 +19,12 @@ const Dash = () => {
     console.log(productData)
     const response = await insertProduct(productData);
 
+    setProductData({nombre: "",
+    descripcion: "",
+    codigo: "",
+    foto: "",
+    precio: 0,
+    stock: 0})
     console.log(response)
   }
   return (
@@ -30,11 +36,11 @@ const Dash = () => {
           </Col>
           <Col xs={10} id="page-content-wrapper">
             <Form>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="Name">Nombre</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="title"
                   placeholder="Nombre"
                   name="title"
@@ -47,11 +53,11 @@ const Dash = () => {
                   }}
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="description">Descripción</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="description"
                   placeholder="Descripción"
                   name="description"
@@ -64,11 +70,11 @@ const Dash = () => {
                   }}
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="codigo">Código</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="codigo"
                   placeholder="Código"
                   name="codigo"
@@ -81,11 +87,11 @@ const Dash = () => {
                   }}
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="foto">Foto</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="foto"
                   placeholder="Foto"
                   name="foto"
@@ -98,11 +104,11 @@ const Dash = () => {
                   }}
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="Name">Precio</label>
                 <input
                   type="number"
-                  class="form-control"
+                  className="form-control"
                   id="Precio"
                   placeholder="Precio"
                   name="Precio"
@@ -115,11 +121,11 @@ const Dash = () => {
                   }}
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="Name">Stock</label>
                 <input
                   type="number"
-                  class="form-control"
+                  className="form-control"
                   id="Stock"
                   placeholder="Stock"
                   name="Stock"
@@ -132,10 +138,10 @@ const Dash = () => {
                   }}
                 />
               </div>
-              <div class="form-group">
+              <div className="form-group">
               <Button
                 type="submit"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 href="#p"
                 onClick={() => submitForm()}
               >

@@ -16,10 +16,10 @@ const Side = () => {
           <Nav.Link href="/">Insertar producto</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="/">Insertar producto</Nav.Link>
+          <Nav.Link href="/list">Listar productos</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="/">Insertar producto</Nav.Link>
+          <Nav.Link href="/cart">Carrito</Nav.Link>
         </Nav.Item>
       </Nav>
     </>
