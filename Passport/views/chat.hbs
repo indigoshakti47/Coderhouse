@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>chat</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
+<script>
+  const jsonObj = JSON.parse('{{{messages}}}');
+  console.log(jsonObj)
+  const norm = normalizr;
+
+  const author = new norm.schema.Entity('author', {}, {idAttribute: 'id'});
+  const text = new norm.schema.Entity('text', {}, {idAttribute: 'date'});
+
+  const mensaje = new norm.schema.Entity('mensajes', {
+    author: [author],
+    text: [text]
+  })
+
+  const denormalizedData = norm.denormalize(jsonObj.result, [mensaje], jsonObj.entities);
+
+</script>
+<body>
+  <div class="chat-container" style="max-width: 800px;margin: 30px auto;border: 1px solid #ddd;box-shadow: 1px 3px 5px rgba(0, 0, 0, .5);">
+    <div class="chat-window" style="padding: 14px 0px;margin: 0 20px;border-bottom: 1px solid #e9e9e9; color: #555">
+      <div id="output">
+      </div>
+    </div>
+    <input type="text" id="email" placeholder="Email">
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="text" id="apellido" placeholder="Apellido">
+    <input type="text" id="edad" placeholder="Edad">
+    <input type="text" id="alias" placeholder="Alias">
+    <input type="text" id="avatar" placeholder="Avatar">
+    <input type="text" id="message" placeholder="Mensaje">
+    <button id="send" style="background: #575ed8;color: #fff;font-size: 18px;border: 0;">Send</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+
+    const socket = io();
+    //Obtengo la fecha en el formato DD/MM/YYYY HH:MM:SS
+    const date = new Date() 
+    const dateFormat = [date.getMonth()+1,
+      date.getDate(),
+      date.getFullYear()].join('/')+' '+
+     [date.getHours(),
+      date.getMinutes(),
+      date.getSeconds()].join(':');
+
+    let email = document.getElementById("email");
+    let nombre = document.getElementById("nombre");
+    let apellido = document.getElementById("apellido");
+    let edad = document.getElementById("edad");
+    let alias = document.getElementById("alias");
+    let avatar = document.getElementById("avatar");
+    let message = document.getElementById("message");
+    let btn = document.getElementById("send")
+    let output = document.getElementById("output")
+    let actions = document.getElementById("actions")
+
+    btn.addEventListener('click', function(){
+      if(email.value === '') alert("Debes ingresar un correo")
+      if(message.value === '') alert("Debes ingresar un mensaje")
+      if(email.value !== '' && message.value !== '')
+      socket.emit('chat:message', {
+        message: message.value,
+        date: dateFormat,
+        nombre: nombre.value,
+        apellido: apellido.value,
+        alias: alias.value,
+        avatar: avatar.value,
+        edad: edad.value,
+        email: email.value
+      })
+    })
+    
+    socket.on('chat:message', function(data){
+      output.innerHTML += `<p style="color: #aaa; padding: 14px 0; margin: 0 20px;">
+          <strong style="color: blue";>${data.email}</strong> <span style="color: brown;">[${data.date}]</span>: <i style="color: green;">${data.message}</i><img src=${data.avatar} alt='user logo' height="40px" style="border-radius: 20px"></p>
+        `
+    })
+
+    const messages = jsonObj.entities.text
+    const arrayOfMsg = Object.values(messages)
+    const authors = jsonObj.entities.author
+    const arrayOfAut = Object.values(authors)
+    console.log(arrayOfAut)
+    function renderChats(){
+        denormalizedData.forEach(data => {
+          const specificMessage = arrayOfMsg.find(mes => mes.date == data.text)
+          const specificAuthor = arrayOfAut.find(aut => aut.id == data.author)
+          console.log(specificAuthor)
+          output.innerHTML += `<p style="color: #aaa; padding: 14px 0; margin: 0 20px;">
+              <strong style="color: blue";>${data.author}</strong> <span style="color: brown;">[${data.text.split("T")[0]} ${data.text.split("T")[1].split(".")[0]}]</span>: <i style="color: green;">${specificMessage.text}</i><img src=${specificAuthor.avatar} alt='user logo' height="40px" style="border-radius: 20px"></p>
+            `
+        })
+    }
+
+  renderChats()
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
